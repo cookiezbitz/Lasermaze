@@ -1,4 +1,4 @@
-bool penis;
+bool tripped;
 float voltage;
 float voltage2;
 float voltage3;
@@ -44,13 +44,14 @@ Serial.println(voltage5);
 
 
   if(voltage < 1.85 || voltage2 < 1.85 || voltage3 < 1.85 || voltage4 < 1.85 || voltage5 < 1.85){
-    penis = true;
+    tripped = true;
 }
 Serial.print("Trip Status: ");
-Serial.println(penis);
+Serial.println(tripped);
 
-  if(penis){
+  if(tripped){
     digitalWrite(13, HIGH);
+    // activate the alarm
   }
 
   // delay before the next reading
