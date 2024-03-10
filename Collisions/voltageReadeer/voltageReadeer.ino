@@ -1,57 +1,44 @@
+const int sensorPins[] = {A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14};
+const int numSensors = sizeof(sensorPins) / sizeof(sensorPins[0]);
+float sensorValues[numSensors];
+float voltages[numSensors];
 bool tripped;
-float voltage;
-float voltage2;
-float voltage3;
-float voltage4;
-float voltage5;
-int sensorValue;
-int sensorValue2;
-int sensorValue3;
-int sensorValue4;
-int sensorValue5;
+int numTripped;
 
 void setup() {
   // start the serial communication
   Serial.begin(9600);
   pinMode(13, OUTPUT);
-  
 }
 
 void loop() {
-  // read the input on analog pin A0
-   sensorValue = analogRead(A0);
-   sensorValue2 = analogRead(A1);
-   sensorValue3 = analogRead(A2);
-   sensorValue4 = analogRead(A3);
-   sensorValue5 = analogRead(A4);
-  // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V)
-   voltage = sensorValue * (5.0 / 1023.0);
-   voltage2 = sensorValue2 * (5.0 / 1023.0);
-   voltage3 = sensorValue3 * (5.0 / 1023.0);
-   voltage4 = sensorValue4 * (5.0 / 1023.0);
-   voltage5 = sensorValue5 * (5.0 / 1023.0);
-  // print out the value in volts
-  Serial.print("Voltage at A0: ");
-Serial.println(voltage);
-Serial.print("Voltage at A1: ");
-Serial.println(voltage2);
-  Serial.print("Voltage at A2: ");
-Serial.println(voltage3);
-Serial.print("Voltage at A3: ");
-Serial.println(voltage4);
-Serial.print("Voltage at A4: ");
-Serial.println(voltage5);
-
-
-  if(voltage < 1.85 || voltage2 < 1.85 || voltage3 < 1.85 || voltage4 < 1.85 || voltage5 < 1.85){
-    tripped = true;
-}
-Serial.print("Trip Status: ");
-Serial.println(tripped);
+  tripped = false;
+  for (int i = 0; i < numSensors; i++) {
+    // read the input on analog pin
+    sensorValues[i] = analogRead(sensorPins[i]);
+    // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V)
+    voltages[i] = sensorValues[i] * (5.0 / 1023.0);
+    // print out the value in volts
+    Serial.print("Voltage at A");
+    Serial.print(i);
+    Serial.print(": ");
+    Serial.println(voltages[i]);
+    // check if voltage is less than 1.85
+    if (voltages[i] < 1.85) {
+      tripped = true;
+      break;  // no need to check further
+    }
+  }
+  Serial.print("Trip Status: ");
+  Serial.println(tripped ? "Tripped" : "Not Tripped");
 
   if(tripped){
-    digitalWrite(13, HIGH);
-    // activate the alarm
+    //digitalWrite(13, HIGH);  // activate the alarm
+    numTripped++;
+    delay(3000);
+    tripped = false;
+    Serial.print("Number of trips: ");
+    Serial.println(numTripped);
   }
 
   // delay before the next reading
