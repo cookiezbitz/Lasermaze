@@ -1,4 +1,6 @@
-const int sensorPins[] = {A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14};
+const int sensorPins[] = {A0, A1, A2, A3, A4
+//, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14
+};
 const int numSensors = sizeof(sensorPins) / sizeof(sensorPins[0]);
 float sensorValues[numSensors];
 float voltages[numSensors];
@@ -26,17 +28,17 @@ void loop() {
     // check if voltage is less than 1.85
     if (voltages[i] < 1.85) {
       tripped = true;
-      break;  // no need to check further
+      //break;  
     }
   }
   Serial.print("Trip Status: ");
   Serial.println(tripped ? "Tripped" : "Not Tripped");
 
   if(tripped){
-    //digitalWrite(13, HIGH);  // activate the alarm
+    digitalWrite(13, HIGH);  // activate the alarm
     numTripped++;
-    delay(3000);
-    tripped = false;
+    delay(1000);
+    digitalWrite(13, LOW);  // deactivate the alarm
     Serial.print("Number of trips: ");
     Serial.println(numTripped);
   }
