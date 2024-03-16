@@ -17,16 +17,6 @@ void setup(){
   
   video.start();
   printArray(Capture.list());
-  
-  
-
-  
-
-  
-}
-
-void captureEvent(Capture video){
-  video.read();
 }
 
 void draw(){
@@ -41,14 +31,16 @@ background(0);
  getTableName();
  println(mouseX);
  println(mouseY);
-
-
 }
+
+
+/*
 void keyPressed(){
 if(key =='j'){
 getTableTime();
   }
 }
+*/
 void getTableTime(){
   table = loadTable("Lasermaze.csv", "header");
   if (table.getRowCount() > 0) { // Check if there is at least 1 row
@@ -74,4 +66,7 @@ void getTableName(){
       text(value, 1360, 565 + 60 * i); // Display the value on the screen
     }
   }
+}
+void captureEvent(Capture video){
+  video.read();
 }
