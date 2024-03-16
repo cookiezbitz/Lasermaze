@@ -21,12 +21,7 @@ void setup(){
   
 
   
-table = loadTable("Lasermaze.csv", "header");
-if (table.getRowCount() > 0) { // Check if there is at least 1 row
-  for (TableRow row : table.rows()) { // Loop through all rows
-    println(row.getString(0)); // Get the value in the first column and print it
-  }
-}
+
   
 }
 
@@ -42,9 +37,41 @@ background(0);
 
  image(bgm,0,0);
  image(video,48,500);
+ getTableTime();
+ getTableName();
+ println(mouseX);
+ println(mouseY);
 
 
 }
-
-
-
+void keyPressed(){
+if(key =='j'){
+getTableTime();
+  }
+}
+void getTableTime(){
+  table = loadTable("Lasermaze.csv", "header");
+  if (table.getRowCount() > 0) { // Check if there is at least 1 row
+    for (int i = 0; i < 8; i++) { // Loop through the first 8 rows
+      TableRow row = table.getRow(i);
+      String value = row.getString(2); // Get the value in the third column
+      textSize(50); // Set the text size
+      textAlign(LEFT, TOP); // Set the text alignment
+      fill(0); // Set the text color to black
+      text(value, 1650, 565 + 60 * i); // Display the value on the screen
+    }
+  }
+}
+void getTableName(){
+  table = loadTable("Lasermaze.csv", "header");
+  if (table.getRowCount() > 0) { // Check if there is at least 1 row
+    for (int i = 0; i < 8; i++) { // Loop through the first 8 rows
+      TableRow row = table.getRow(i);
+      String value = row.getString(1); // Get the value in the third column
+      textSize(50); // Set the text size
+      textAlign(LEFT, TOP); // Set the text alignment
+      fill(0); // Set the text color to black
+      text(value, 1360, 565 + 60 * i); // Display the value on the screen
+    }
+  }
+}
