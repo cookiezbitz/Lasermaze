@@ -5,10 +5,12 @@ PImage bgm;
 String[] cameras = Capture.list();
 Table table;
 float[] columnData;
+PFont newfont;
 
 void setup(){
   //size(600,500);
   bgm = loadImage("TV.png");
+  newfont = createFont("LASER.otf", 50);
   fullScreen();
   video = new Capture(this,1086,533,30);
   
