@@ -1,11 +1,10 @@
-const int sensorPins[] = {A0, A1, A2, A3, A4
-//, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14
-};
+const int sensorPins[] = {A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14};
 const int numSensors = sizeof(sensorPins) / sizeof(sensorPins[0]);
 float sensorValues[numSensors];
 float voltages[numSensors];
 bool tripped;
 int numTripped;
+float trippingConstant = 2.1;
 
 void setup() {
   // start the serial communication
@@ -14,8 +13,6 @@ void setup() {
 }
 
 void loop() {
-  //tripped = false;
-  //digitalWrite(13, HIGH);
   for (int i = 0; i < numSensors; i++) {
     // read the input on analog pin
     sensorValues[i] = analogRead(sensorPins[i]);
@@ -26,8 +23,8 @@ void loop() {
     Serial.print(i);
     Serial.print(": ");
     Serial.println(voltages[i]);
-    // check if voltage is less than 1.85
-    if (voltages[i] < 2.1) {
+    // check if voltage is less than tripping con$tant (tripped)
+    if (voltages[i] < trippingConstant) {
       tripped = true;
       break;   
     }
@@ -39,6 +36,7 @@ void loop() {
     digitalWrite(13, HIGH);  // activate the alarm
     numTripped++;
     delay(500);
+    //cooldown/grace period
     digitalWrite(13, LOW);  // deactivate the alarm
     Serial.print("Number of trips: ");
     Serial.println(numTripped);
