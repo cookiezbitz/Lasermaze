@@ -14,7 +14,8 @@ void setup() {
 }
 
 void loop() {
-  tripped = false;
+  //tripped = false;
+  //digitalWrite(13, HIGH);
   for (int i = 0; i < numSensors; i++) {
     // read the input on analog pin
     sensorValues[i] = analogRead(sensorPins[i]);
@@ -26,23 +27,24 @@ void loop() {
     Serial.print(": ");
     Serial.println(voltages[i]);
     // check if voltage is less than 1.85
-    if (voltages[i] < 1.85) {
+    if (voltages[i] < 2.1) {
       tripped = true;
-      //break;  
+      break;   
     }
   }
   Serial.print("Trip Status: ");
-  Serial.println(tripped ? "Tripped" : "Not Tripped");
+  Serial.println(tripped ? "Tripped" : "Not Tripped"); 
 
   if(tripped){
     digitalWrite(13, HIGH);  // activate the alarm
     numTripped++;
-    delay(1000);
+    delay(500);
     digitalWrite(13, LOW);  // deactivate the alarm
     Serial.print("Number of trips: ");
     Serial.println(numTripped);
+    tripped = false;
   }
 
   // delay before the next reading
-  delay(1000);
+  delay(1);
 }

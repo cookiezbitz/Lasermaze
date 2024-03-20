@@ -8,9 +8,9 @@ float[] columnData;
 PFont newfont;
 
 void setup(){
-  //size(600,500);
-  bgm = loadImage("TV.png");
+  bgm = loadImage("tv with ponor.png");
   newfont = createFont("LASER.otf", 50);
+  textFont(newfont);  
   fullScreen();
   video = new Capture(this,1086,533,30);
   
@@ -31,18 +31,10 @@ background(0);
  image(video,48,500);
  getTableTime();
  getTableName();
- println(mouseX);
- println(mouseY);
 }
 
 
-/*
-void keyPressed(){
-if(key =='j'){
-getTableTime();
-  }
-}
-*/
+
 void getTableTime(){
   table = loadTable("Lasermaze.csv", "header");
   if (table.getRowCount() > 0) { // Check if there is at least 1 row
